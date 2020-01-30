@@ -9,13 +9,57 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var años: String = ""
+    @ObservedObject var gratificacion: Gratificacion
+    
     var body: some View {
-        Text("Hello, World!")
+        
+        
+            VStack {
+                HStack {
+                    Text("Funcionario")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                }.frame(minWidth: 100, idealWidth: .infinity, maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
+                .background(Color(UIColor(named: "cabecera")!))
+                TextField("¿Cuántos años llevas trabajando?",
+                          text: Binding(
+                            get: {
+                                return self.años
+                          },
+                            set: { (newValue) in
+                                self.gratificacion.setAñosTrabajados(años: Int(newValue) ?? 0)
+                                return self.años = newValue
+                          }),
+                          onCommit: self.endEditing
+                )
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Vacaciones adicionales: " + gratificacion.getDiasVacacionesAdicionales())
+                    Text("Dias libres adicionales: " + gratificacion.getDiasLibresAdicionales())
+                }
+                
+                Spacer()
+                
+                Text("El bueno funcionario no nace, se hace.").foregroundColor(Color(UIColor(named: "cabecera")!))
+                
+                Spacer()
+            }
+        
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    init(gratificacion: Gratificacion) {
+        self.gratificacion = gratificacion
+        UITableView.appearance().separatorColor = .clear
+        UITableView.appearance().backgroundColor = UIColor(named: "fondo")
+        UITableViewCell.appearance().backgroundColor = UIColor(named: "fondo")
+    }
+    
+    private func endEditing() {
+        UIApplication.shared.endEditing()
     }
 }
