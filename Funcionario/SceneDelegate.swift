@@ -22,11 +22,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         let gratificacion = Gratificacion()
         let contentView = MainView(gratificacion: gratificacion)
+        //let timer: MiTimer = MiTimer()
+        
+       // let contentView = VistaSelectorDate()
     //    let contentView = ContentView(gratificacion: gratificacion)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
+            window.tintColor = .orange// para tinta de botones back de navigationview, etc
             window.rootViewController = UIHostingController(rootView: contentView)
             self.window = window
             window.makeKeyAndVisible()
